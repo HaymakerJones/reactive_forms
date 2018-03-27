@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="testForm">
+        <div class="form-group">
+          <label>Full Name:
+            <input class="form-control" formControlName="name">
+          </label>
+          <div class="alert" *ngIf="formErrors.name">
+            {{formErrors.name}}
+          </div>
+        </div>
+        <div class="form-group" formArrayName="addresses">
+          <div *ngFor="let address of testForm.controls.addresses.controls; let i=index;">
+            <div class="card">
+              <div class="card-header">
+                Address #{{i + 1}}
+                <button class="btn btn-info" *ngIf="testForm.controls.addresses.controls.length > 1" (click)="removeAddress(i)">Remove</button>
+              </div>
+              <div class="card-body" [formGroupName]="i">
+                <div class="form-group">
+                  <label>City</label>
+                  <input class="form-control" formControlName="city">
+
+                  <span *ngIf="formErrors.addresses[i].city">
+                    {{ formErrors.addresses[i].city }}
+                  </span>
+                </div>
+                <div class="form-group">
+                  <label>Country</label>
+                  <input class="form-control" formControlName="country">
+                  <span *ngIf="formErrors.addresses[i].country">
+                    {{ formErrors.addresses[i].country }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-info" (click)="addAddress()">Add Address</button>
+        <button class="btn btn-primary" (click)="onSubmit( testForm.value )">Save</button>
+      </form>
+    </div>
+  </div>
+</div>
